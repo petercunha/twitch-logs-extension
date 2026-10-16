@@ -2,13 +2,20 @@
 
 A Chrome extension (Manifest V3) that adds a **Chat logs** button to Twitch user cards. Click it to see everything that chatter has said in the channel. The logs come from [Lurkology](https://lurkology.com/logs).
 
-## Install (unpacked)
+## Install
 
-1. Open `chrome://extensions` and turn on **Developer mode**.
-2. Click **Load unpacked** and select this folder.
-3. Open any channel on twitch.tv, click a name in chat, and click the speech-bubble icon on the user card.
+The extension isn't on the Chrome Web Store, so it's installed as an unpacked extension. This works in Chrome, Edge, Brave and other Chromium browsers.
 
-After editing the code, click the reload icon on the extension card, then refresh your Twitch tabs.
+1. Download `twitch-chat-logs-<version>.zip` from the [latest release](../../releases/latest) and unzip it.
+2. Open `chrome://extensions` and turn on **Developer mode** (top right).
+3. Click **Load unpacked** and select the unzipped `twitch-chat-logs-<version>` folder (the one with `manifest.json` in it).
+4. Open any channel on twitch.tv, click a name in chat, and click the speech-bubble icon on the user card.
+
+Keep the folder where it is, because Chrome loads the extension from it. To update, unzip the new release in its place and click the reload icon on the extension's card.
+
+### From source
+
+Clone the repo and choose the repo folder in the **Load unpacked** step above. After editing the code, click the reload icon on the extension's card, then refresh your Twitch tabs. `scripts/package.sh` builds the release zip from the committed files.
 
 ## Usage
 
@@ -39,3 +46,4 @@ An unknown user or channel gets a `404` with a plain-text reason such as `The us
 - `src/panel.css` holds the panel styles, with dark and light variants that follow Twitch's theme.
 - `src/card.css` styles the button added to the user cards.
 - `scripts/make_icons.py` regenerates `icons/` using only the Python standard library.
+- `scripts/package.sh` zips the committed extension files into `dist/` for a release.
