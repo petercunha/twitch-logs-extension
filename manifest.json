@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Twitch Chat Logs",
+  "version": "1.0.0",
+  "description": "Adds a chat logs button to Twitch user cards that shows the chatter's message history in the channel, powered by Lurkology logs.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.twitch.tv/*", "https://dashboard.twitch.tv/*"],
+      "js": ["src/content.js"],
+      "css": ["src/card.css"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/panel.css"],
+      "matches": ["https://www.twitch.tv/*", "https://dashboard.twitch.tv/*"]
+    }
+  ],
+  "host_permissions": [
+    "https://bestlogs.lurkology.com/*",
+    "https://7tv.io/*",
+    "https://api.betterttv.net/*",
+    "https://api.frankerfacez.com/*"
+  ]
+}

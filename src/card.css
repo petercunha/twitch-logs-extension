@@ -1,0 +1,49 @@
+/* The "Chat logs" button added to Twitch's and 7TV's user cards. */
+
+.twitch-chat-logs-card-button svg {
+  display: block;
+  fill: currentColor;
+}
+
+/* Twitch's viewer card: a round icon button left of the close button. */
+.twitch-chat-logs-native {
+  position: absolute;
+  top: 4px;
+  right: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 9000px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.twitch-chat-logs-native:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.twitch-chat-logs-native:active {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.twitch-chat-logs-native:focus-visible {
+  outline: 2px solid #a970ff;
+  outline-offset: -2px;
+}
+
+.twitch-chat-logs-native svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* 7TV's card: inherits their icon button styles; match their icon size. */
+.seventv-usercard-icon-button.twitch-chat-logs-card-button svg {
+  width: 1.15em;
+  height: 1.15em;
+}

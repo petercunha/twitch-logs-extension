@@ -1,0 +1,335 @@
+/* Loaded inside the panel's shadow root, so nothing here touches Twitch. */
+
+:host {
+  all: initial;
+}
+
+.panel {
+  --bg: #18181b;
+  --bg-raised: #1f1f23;
+  --bg-input: #2f2f35;
+  --bg-hover: rgba(83, 83, 95, 0.38);
+  --border: rgba(83, 83, 95, 0.55);
+  --text: #efeff1;
+  --muted: #adadb8;
+  --accent: #a970ff;
+  --accent-strong: #9147ff;
+  --mark: rgba(169, 112, 255, 0.35);
+  --mod: #eb0400;
+  --system: rgba(145, 71, 255, 0.12);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.3);
+
+  position: fixed;
+  z-index: 10000;
+  top: 80px;
+  left: 80px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 420px;
+  height: min(560px, calc(100vh - 16px));
+  min-width: 300px;
+  min-height: 240px;
+  max-width: calc(100vw - 16px);
+  max-height: calc(100vh - 16px);
+  overflow: hidden;
+  resize: both;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  font: 13px/20px Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: left;
+}
+
+.panel.light {
+  --bg: #ffffff;
+  --bg-raised: #f7f7f8;
+  --bg-input: #e6e6ea;
+  --bg-hover: rgba(0, 0, 0, 0.06);
+  --border: rgba(0, 0, 0, 0.12);
+  --text: #0e0e10;
+  --muted: #53535f;
+  --accent: #8205b4;
+  --accent-strong: #9147ff;
+  --mark: rgba(145, 71, 255, 0.22);
+  --system: rgba(145, 71, 255, 0.08);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Header ------------------------------------------------------------- */
+
+.head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 6px 8px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-raised);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.head:active {
+  cursor: grabbing;
+}
+
+.who {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  min-width: 0;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.name {
+  overflow: hidden;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.name:hover {
+  text-decoration: underline;
+}
+
+.in,
+.hash {
+  color: var(--muted);
+}
+
+.hash {
+  margin-right: -7px; /* cancels the flex gap and the input's padding */
+}
+
+.channel {
+  flex: 1;
+  min-width: 60px;
+  padding: 0 2px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  outline: none;
+}
+
+.channel:hover {
+  border-color: var(--border);
+}
+
+.channel:focus {
+  border-color: var(--accent-strong);
+  background: var(--bg);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.icon:hover {
+  background: var(--bg-hover);
+}
+
+.icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Toolbar ------------------------------------------------------------ */
+
+.tools {
+  display: flex;
+  flex: none;
+  gap: 6px;
+  padding: 8px 10px 4px;
+}
+
+.filter,
+.month {
+  height: 30px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background: var(--bg-input);
+  color: var(--text);
+  font: inherit;
+  outline: none;
+}
+
+.filter {
+  flex: 1;
+  min-width: 0;
+  padding: 0 8px;
+}
+
+.filter::placeholder {
+  color: var(--muted);
+}
+
+.month {
+  flex: none;
+  max-width: 120px;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+.month:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.filter:focus,
+.month:focus {
+  border-color: var(--accent-strong);
+  background: var(--bg);
+}
+
+.status {
+  flex: none;
+  min-height: 20px;
+  padding: 2px 12px 6px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.status.error {
+  color: var(--mod);
+}
+
+/* Messages ----------------------------------------------------------- */
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 0 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-input) transparent;
+}
+
+.day {
+  position: sticky;
+  z-index: 1;
+  top: -4px;
+  padding: 6px 12px 4px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.msg {
+  display: flex;
+  gap: 8px;
+  padding: 3px 12px;
+  overflow-wrap: anywhere;
+}
+
+.msg:hover {
+  background: var(--bg-hover);
+}
+
+.ts {
+  flex: none;
+  min-width: 40px;
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.body {
+  min-width: 0;
+}
+
+.body.action {
+  font-style: italic;
+}
+
+.msg.system {
+  margin: 2px 0;
+  border-left: 3px solid var(--accent-strong);
+  background: var(--system);
+}
+
+.sysmsg {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.msg.mod .body {
+  color: var(--mod);
+  font-style: italic;
+}
+
+.emote {
+  display: inline-block;
+  height: 28px;
+  margin: -4px 1px;
+  vertical-align: middle;
+}
+
+.link {
+  color: var(--accent);
+}
+
+mark {
+  border-radius: 2px;
+  background: var(--mark);
+  color: inherit;
+}
+
+.more,
+.end {
+  display: block;
+  margin: 10px auto 4px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.more {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--bg-input);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.more:hover {
+  background: var(--accent-strong);
+  color: #fff;
+}
